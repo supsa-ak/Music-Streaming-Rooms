@@ -92,6 +92,8 @@ class LeaveRoom(APIView):
 
         return Response({'message': 'Success'}, status=status.HTTP_200_OK)
 
+
+
 class UpdateRoom(APIView):
     serializer_class = UpdateRoomSerializer
 
@@ -107,18 +109,21 @@ class UpdateRoom(APIView):
 
             queryset = Room.objects.filter(code=code)
             if not queryset.exists():
-                return Response({"msg":"Room not Found."}, status=status.HTTP_400_BAD_REQUEST)
+                print("fucked1")
+                return Response({'msg': 'Room not found.'}, status=status.HTTP_404_NOT_FOUND)
 
             room = queryset[0]
-
             user_id = self.request.session.session_key
             if room.host != user_id:
-                return Response({'Message':"You are not the host of the room..."}, status=status.HTTP_300_FORBIDDEN)
+                print("fucked2")
+                return Response({'msg': 'You are not the host of this room.'}, status=status.HTTP_403_FORBIDDEN)
 
             room.guest_can_pause = guest_can_pause
             room.votes_to_skip = votes_to_skip
             room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
-
+            print("fucked3")
             return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
 
-        return Response({'Bad Request':"Invalid Data..."}, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.data)
+        print("fucked4")
+        return Response({'Bad Request': "Invalid Data..."}, status=status.HTTP_400_BAD_REQUEST)
