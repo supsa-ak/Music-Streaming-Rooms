@@ -11,22 +11,21 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-
+let roomCode = 12;
 export default class CreateRoomPage extends Component {
   static defaultProps = {
     votesToSkip: 2,
     guestCanPause: true,
     update: false,
-    roomCode: null,
+    // roomCode: null,
     updateCallback: () => {},
   };
-
+  
   constructor(props) {
     super(props);
     this.state = {
       guestCanPause: this.props.guestCanPause,
       votesToSkip: this.props.votesToSkip,
-      roomCode: this.props.roomCode,
       errorMsg: "",
       successMsg: "",
     };
@@ -63,9 +62,8 @@ export default class CreateRoomPage extends Component {
       .then((data) => {
         this.props.history.push("/room/" + data.code);
         console.log(data.code);
-        this.setState({
-          roomCode: data.code,
-        });
+        roomCode = data.code;
+        console.log('this is ', roomCode);
       });
   }
 
@@ -76,7 +74,7 @@ export default class CreateRoomPage extends Component {
       body: JSON.stringify({
         votes_to_skip: this.state.votesToSkip,
         guest_can_pause: this.state.guestCanPause,
-        code: this.props.roomCode,
+        code: roomCode,
       }),
     };
     fetch("/api/update-room", requestOptions).then((response) => {
