@@ -2,6 +2,7 @@
 node_modules/
 __pycache__/
 env/
+backup_db/
 
 # Django Gitignore Template
 # Byte-compiled / optimized / DLL files

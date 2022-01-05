@@ -9,4 +9,4 @@ urlpatterns = [
     path('user-in-room', UserInRoom.as_view()),
     path('leave-room', LeaveRoom.as_view()),
     path('update-room', UpdateRoom.as_view())
-] 
+]
